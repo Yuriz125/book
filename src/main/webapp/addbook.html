@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增图书信息</title>
+</head>
+
+<style>
+    #a{height: 500px;width: 800px;margin: auto;background-color: antiquewhite}
+    .a1{float: left;width: 300px;height: 80px}
+</style>
+
+<script type="text/javascript" src="js/jquery-3.6.0.js"></script>
+
+<body>
+
+<div id="a">
+    <p style="font-size: 30px;text-align: center;line-height: 80px"><b>新增图书信息</b></p>
+
+   <form action="./bookServlet?type=2" method="post">
+    <div class="a1">
+        <b>图书编号：</b><input name="bookCode">
+    </div>
+
+    <div class="a1">
+        <b>图书名称；</b><input name="bookName">
+    </div>
+
+    <div class="a1">
+        <b>图书类型；</b><input name="bookType" type="text" list="typelist" placeholder="---请选择---">
+        <datalist id="typelist">
+        <option>科技</option>
+        <option>小说</option>
+        <option>艺术</option>
+        <option>少儿</option>
+        </datalist>
+        </div>
+    <div class="a1">
+        <b>作者：</b><input name="bookAuthor">
+    </div>
+
+    <div class="a1">
+        <b>出版社：</b><input name="publisher">
+    </div>
+    <div class="a1">
+        <b>是否借阅：</b><input name="borrowed" type="text" list="borrow">
+        <datalist id="borrow">
+            <option>未借阅</option>
+            <option>已借阅</option>
+        </datalist>
+    </div>
+
+    <div class="a1">
+        <b>入库时间：</b><input name="createtime" type="date">
+    </div>
+       <input style="margin: 300px 0px 0px 0px" type="submit" class="button" value="提交"/>
+       <input type="submit" class="button" value="返回"/>
+   </form>
+</div>
+</body>
+</html>

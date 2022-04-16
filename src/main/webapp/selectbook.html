@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看图书信息</title>
+</head>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script>
+    //从后台拿值
+    function selectb(){
+        $.ajax({
+            url:"./bookServlet?type=6",
+            type:"post",
+            dataType:"json",
+            success:function (data){
+                var h="<div class=\'a1\'>\n" +
+                    "        <input name=\'bookId\' type=\'hidden\' readonly value='"+data.bookId+"'>\n" +
+                    "        <b>图书编号：</b><input name=\'bookCode\' readonly value='"+data.bookCode+"'>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>图书名称；</b><input name=\'bookName\' readonly value='"+data.bookName+"'>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>图书类型；</b><input name=\'bookType\' readonly value='"+data.bookType+"' type=\'text\' list=\'typelist\' placeholder=\'---请选择---\'>\n" +
+                    "        <datalist id=\'typelist\'>\n" +
+                    "            <option>科技</option>\n" +
+                    "            <option>小说</option>\n" +
+                    "            <option>艺术</option>\n" +
+                    "            <option>少儿</option>\n" +
+                    "        </datalist>\n" +
+                    "    </div>\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>作者：</b><input name=\'bookAuthor\' readonly value='"+data.bookAuthor+"'>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>出版社：</b><input name=\'publisher\' readonly value='"+data.publisher+"'>\n" +
+                    "    </div>\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>是否借阅：</b><input name=\'borrowed\' readonly value='"+data.borrowed+"' type=\'text\' list=\'borrow\'>\n" +
+                    "        <datalist id=\'borrow\'>\n" +
+                    "            <option>未借阅</option>\n" +
+                    "            <option>已借阅</option>\n" +
+                    "        </datalist>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>入库时间：</b><input name=\'createtime\' readonly value='"+data.createtime+"' type=\'date\'>\n" +
+                    "    </div>\n" +
+                    "\n" ;
+                    h+=' <input type="button" style="margin: 50px 200px 0px 0px" onclick="fh()"  value="返回"/>';
+                $("#chakan").html(h)
+            },
+            error:function (){}
+        });
+    }
+
+    function fh(){
+        location.href="info.html";
+    }
+</script>
+<style>
+    #a{height: 500px;width: 800px;margin: auto;background-color: antiquewhite}
+    .a1{float: left;width: 300px;height: 80px}
+</style>
+
+<body onload="selectb()">
+
+<div id="a">
+    <p style="font-size: 30px;text-align: center;line-height: 80px"><b>查看图书信息</b></p>
+    <form id="chakan">
+
+    </form>
+</div>
+</body>
+</html>

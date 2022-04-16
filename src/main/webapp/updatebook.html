@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改图书信息</title>
+</head>
+
+<style>
+    #a{height: 500px;width: 800px;margin: auto;background-color: antiquewhite}
+    .a1{float: left;width: 300px;height: 80px}
+
+</style>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script>
+    //从后台拿值
+    function selectone(){
+        $.ajax({
+            url:"./bookServlet?type=6",//你这是4是修改了啊  这个selectonefunction 是为了拿后台的值显示的 你需要再写一个啊
+            type:"post",
+            dataType:"json",
+            success:function (data){
+                var h=" <div class=\'a1\'>\n" +
+                    "<input name='bookId' value='"+data.bookId+"' type='hidden'>     " +
+                    "   <b>图书编号：</b><input name=\'bookCode\' value='"+data.bookCode+"'>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>图书名称；</b><input name=\'bookName\' value='"+data.bookName+"'>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>图书类型；</b><input name=\'bookType\' value='"+data.bookType+"' type=\'text\' list=\'typelist\' placeholder=\'---请选择---\'>\n" +
+                    "        <datalist id=\'typelist\'>\n" +
+                    "            <option>科技</option>\n" +
+                    "            <option>小说</option>\n" +
+                    "            <option>艺术</option>\n" +
+                    "            <option>少儿</option>\n" +
+                    "        </datalist>\n" +
+                    "    </div>\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>作者：</b><input name=\'bookAuthor\' value='"+data.bookAuthor+"'>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>出版社：</b><input name=\'publisher\' value='"+data.publisher+"'>\n" +
+                    "    </div>\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>是否借阅：</b><input name=\'borrowed\' value='"+data.borrowed+"' type=\'text\' list=\'borrow\'>\n" +
+                    "        <datalist id=\'borrow\'>\n" +
+                    "            <option>未借阅</option>\n" +
+                    "            <option>已借阅</option>\n" +
+                    "        </datalist>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <div class=\'a1\'>\n" +
+                    "        <b>入库时间：</b><input name=\'createtime\' value='"+data.createtime+"' type=\'date'>\n" +
+                    "    </div>\n";
+                h+='  <input style="margin: 300px 0px 0px 0px" type="button" class="button" onclick="sub()" value="提交"/>\n' +
+                    '        <input type="submit" class="button" value="返回"/>';
+                $("#xiugai").html(h);
+
+            },
+            error:function (){}
+        });
+
+    }
+
+    function sub(){
+        $.ajax({
+            url:"./bookServlet?type=4",
+            type:"post",
+            dataType:"json",
+            data:$("#xiugai").serialize(), //表单序列化
+            success:function (data){
+                location.href="info.html";
+            },
+            error:function (){}
+        });
+
+    }
+
+</script>
+
+<body onload="selectone()">
+
+<div id="a">
+    <p style="font-size: 30px;text-align: center;line-height: 80px"><b>修改图书信息</b></p>
+    <form id="xiugai">
+
+    </form>
+</div>
+</body>
+</html>

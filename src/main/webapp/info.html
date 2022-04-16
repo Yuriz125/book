@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书借阅系统</title>
+
+</head>
+<script type="text/javascript"  src="js/jquery-3.6.0.js"></script>
+<script>
+    function selectall(p){
+        $.ajax({
+            url: "./bookServlet?type=1&page="+p,
+            type: "post",
+            dataType: "json",
+            success:function (data){
+                var h="";
+                for(var i=0;i<data.list.length;i++){
+                    h+=" <tr>\n" +
+                        "        <td>"+data.list[i].bookCode+"</td>\n" +
+                        "        <td>"+data.list[i].bookType+"</td>\n" +
+                        "        <td>"+data.list[i].bookName+"</td>\n" +
+                        "        <td>"+data.list[i].bookAuthor+"</td>\n" +
+                        "        <td>"+data.list[i].publisher+"</td>\n" +
+                        "        <td>"+data.list[i].createtime+"</td>\n" +
+                        "        <td>"+data.list[i].borrowed+"</td>\n" +
+                        "        <td>" +
+                        "<a style=\'text-decoration:none\' onclick=\'seletone("+data.list[i].bookId+")\'  href=\'javascript:;\'>查看</a>\n" +
+                        "            | " +
+                        "<a style=\'text-decoration:none\' onclick=\'updat("+data.list[i].bookId+")\'  href=\'javascript:;\'>修改</a>\n" +
+                        "            | " +
+                        "<a style=\'text-decoration:none\' onclick=\'del("+data.list[i].bookId+")\'  href=\'javascript:;\'>删除</a>\n" +
+                        "        </td>\n" +
+                        "    </tr>\n";
+                }
+                $("#b").html(h);
+
+                var s=data.page-1==0?1:data.page-1;
+                var x=data.page+1>data.sumpage?data.sumpage:data.page+1;
+
+                var f=" <a onclick='selectall(1)'   href=\'javascript:;\'>首页</a> " +
+                    "<a onclick='selectall("+s+")'  href=\'javascript:;\'>上一页</a>" +
+                    " <a onclick='selectall("+x+")'  href=\'javascript:;\'>下一页</a>" +
+                    " <a onclick='selectall("+data.sumpage+")'  href=\'javascript:;\'>末页</a>" +
+                    "<span>总页数/当前页数:"+data.sumpage+"/"+data.page+"</span>";
+                $("#fy").html(f);
+
+            },
+            error:function(){
+            }
+        });
+    }
+
+    function addb(){
+        location.href="addbook.html";
+
+    }
+
+    function updat(id){
+        $.ajax({
+            url: "./bookServlet?type=5&id="+id,
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                location.href="updatebook.html";
+            }, error() {
+                alert("失败！");
+            }
+        });
+    }
+
+    function seletone(id){
+        $.ajax({
+            url: "./bookServlet?type=5&id="+id,
+            type: "post",
+            dataType: "json",
+            success:function(data){
+                location.href="selectbook.html";
+            },
+            error (){}
+        });
+
+
+    }
+
+    function go(){
+        //获得输入框的文本值（跳转到多少页）
+        var i=document.getElementById('tt').value;
+        selectall(i);
+    }
+
+
+    function del(id){
+        var f=confirm("是否确定删除？");
+        if(f){
+            location.href="./bookServlet?type=3&id="+id;
+        }
+    }
+
+    //条件查询（按图书名称查询）
+    function selectbookname(){
+        //获得输入框的文本（条件查询的书本名）
+        var bookName=document.getElementById('getbookName').value;
+        $.ajax({
+            url:"./bookServlet?type=7&bookName="+bookName,
+            type:"post",
+            dataType:"json",
+            success:function (data){
+                location.href="selectbook.html";
+            },
+            error:function (){
+                alert("未找到该书籍");
+            }
+        })
+    }
+
+</script>
+
+<body onload="selectall(1)">
+<table style="margin: auto"  border="1" cellspacing="0" width="80%">
+    <caption>
+        <h2>图书借阅系统-后台管理</h2>
+    </caption>
+
+    图书名称<input type="text" id="getbookName"><input type="button" onclick="selectbookname()" value="查询">
+
+    <div style="margin: 20px 200px 0px 0px"> <button onclick="addb()">新增</button></div>
+    <thead>
+    <tr><th>图书编号</th><th>图书分类</th><th>图书名称</th><th>作者</th>
+        <th>出版社</th>
+        <th>入库事件</th>
+        <th>是否借阅</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <tbody id="b">
+
+    </tbody>
+
+</table>
+<div id="fy" style="margin:20px 0px 0px 500px;float: left"></div>
+<div style="float: left;margin: 20px 0px 0px 50px"><input style="width: 50px" type="text" id="tt"><input type="button" value="GO！" onclick="go()"></div>
+
+</body>
+</html>
